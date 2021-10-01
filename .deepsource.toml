@@ -1,12 +1,22 @@
 version = 1
 
+exclude_patterns = [
+  "internal/ent/*",
+  "internal/graphql/*",
+  "ui/$houdini",
+  "ui/.svelte-kit"
+]
+
+[[analyzers]]
+name = "shell"
+enabled = true
+
 [[analyzers]]
 name = "go"
 enabled = true
 
   [analyzers.meta]
   import_root = "github.com/responserms/response"
-  dependencies_vendored = false
 
 [[analyzers]]
 name = "docker"
@@ -22,4 +32,12 @@ enabled = true
 
 [[analyzers]]
 name = "secrets"
+enabled = true
+
+[[transformers]]
+name = "gofmt"
+enabled = true
+
+[[transformers]]
+name = "prettier"
 enabled = true
