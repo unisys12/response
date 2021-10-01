@@ -60,11 +60,7 @@ func (b *authBlock) Apply(config *Config) error {
 		b.Password = &authPassword{}
 	}
 
-	if err := b.Password.Apply(config); err != nil {
-		return err
-	}
-
-	return nil
+	return b.Password.Apply(config)
 }
 
 type authPassword struct {
