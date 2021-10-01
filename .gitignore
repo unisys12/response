@@ -1,7 +1,8 @@
 ### Response
 .store/
 .task/
-/config.hcl
+.idea/
+config.hcl
 
 ### Node template
 # Logs
