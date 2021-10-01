@@ -1,11 +1,7 @@
 package server
 
 func (s *server) isDevProxyEnabled() bool {
-	if s.config.DeveloperUIProxyPort == 0 {
-		return false
-	}
-
-	return true
+	return s.config.DeveloperUIProxyPort != 0
 }
 
 func (s *server) registerDevProxyRoute() {
