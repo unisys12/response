@@ -1,0 +1,15 @@
+
+{{define "providers"}}
+    {{range $provider := .providers}}
+        {{if eq $provider.Type "oauth2"}}
+            {{template "oauth2" $provider}}
+        {{end}}
+    {{end}}
+{{end}}
+
+{{define "oauth2"}}
+    <a href="{{.URL}}" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+        <span class="sr-only">Sign in with {{.Name}}</span>
+        <i class="fab fa-{{.Icon}} text-xl"></i>
+    </a>
+{{end}}

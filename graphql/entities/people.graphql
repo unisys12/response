@@ -1,0 +1,93 @@
+
+type Person {
+    "First Name (Given Name)"
+    first_name: String!
+    "Middle Name"
+    middle_name: String
+    "Last Name (Family Name)"
+    last_name: String!
+    "Suffix (Jr, Sr, II, III, etc.)"
+    suffix: String
+    "Date of Birth"
+    date_of_birth: Time
+    "Age"
+    age: Int
+    "Created Time"
+    created_at: Time!
+    "Last Update Time"
+    updated_at: Time
+}
+
+input CreatePerson {
+    first_name: String
+    middle_name: String
+    last_name: String
+    suffix: String
+    date_of_birth: Time
+    race: ID
+    ethnicity: ID
+    sex: ID
+}
+
+input UpdatePerson {
+    first_name: String
+    middle_name: String
+    last_name: String
+    suffix: String
+    date_of_birth: Time
+    race: ID
+    ethnicity: ID
+    sex: ID
+}
+
+extend type Mutation {
+    "Create a Person in Response"
+    createPerson(input: CreatePerson!): Person
+    "Update a Person in Response"
+    updatePerson(id: ID!, input: UpdatePerson!): Person
+    "Set a Person as deceased and generate a DeathCertificate"
+    setPersonDeceased(id: ID!, cause: String!): Person
+    "Set a Person as alive and destroys the DeathCertificate"
+    setPersonAlive(id: ID!): Person
+    "Claims a Person to be owned by the current User. This will allow a User to manage a Person and may need approval depending on the Response configuration."
+    claimPerson(id: ID!): Person
+    "Surrenders a Person, allowing the Person to be claimed by another User from the Unclaimed Users list"
+    surrenderPerson(id: ID!): Person
+    "Archives a Person, removing the ability for the Person to be updated by the User who owns it and/or act as the Person."
+    archivePerson(id: ID!): Person
+    "Restores the ability to act as a User, allowing the User who owns it to act as the Person again."
+    restorePerson(id: ID!): Person
+
+}
+
+type PersonConnection {
+    totalCount: Int!
+    pageInfo: PageInfo!
+    edges: [PersonEdge]
+}
+
+type PersonEdge {
+    node: Person
+    cursor: Cursor!
+}
+
+enum PersonOrderField {
+    FIRST_NAME
+    LAST_NAME
+    DATE_OF_BIRTH
+    CREATED_AT
+    UPDATED_AT
+}
+
+input PersonOrder {
+    direction: OrderDirection!
+    field: PersonOrderField
+}
+
+extend type Query {
+    searchPeople(where: PersonWhereInput): [Person!]
+}
+
+extend type User {
+    people(alive: Boolean, archived: Boolean): [Person!]
+}

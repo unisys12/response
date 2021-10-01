@@ -1,0 +1,36 @@
+type Sex implements Node {
+    id: ID!
+    short: String!
+    title: String!
+    description: String
+    created_at: Time!
+    created_by: User
+    updated_at: Time
+    updated_by: User
+}
+
+extend type Query {
+    sexes: [Sex!]
+}
+
+input CreateSex {
+    short: String!
+    title: String!
+    description: String
+}
+
+input UpdateSex {
+    short: String!
+    title: String!
+    description: String
+}
+
+extend type Mutation {
+    createSex(input: CreateSex!): Sex
+    updateSex(id: ID!, input: UpdateSex!): Sex
+    deleteSex(id: ID!): Boolean!
+}
+
+extend type Person {
+    sex: Sex
+}

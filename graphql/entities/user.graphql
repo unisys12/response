@@ -1,0 +1,14 @@
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    first_setup_completed: Boolean!
+    first_setup_at: Time
+    created_at: Time!
+    updated_at: Time!
+}
+
+extend type OAuthConnection {
+    user: User
+}

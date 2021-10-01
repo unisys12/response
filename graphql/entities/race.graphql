@@ -1,0 +1,37 @@
+
+type Race implements Node {
+    id: ID!
+    short: String!
+    title: String!
+    description: String
+    created_at: Time!
+    created_by: User
+    updated_at: Time
+    updated_by: User
+}
+
+extend type Query {
+    races: [Race!]
+}
+
+input CreateRace {
+    short: String!
+    title: String!
+    description: String
+}
+
+input UpdateRace {
+    short: String!
+    title: String!
+    description: String
+}
+
+extend type Mutation {
+    createRace(input: CreateRace!): Race
+    updateRace(id: ID!, input: UpdateRace!): Race
+    deleteRace(id: ID!): Boolean!
+}
+
+extend type Person {
+    race: Race
+}

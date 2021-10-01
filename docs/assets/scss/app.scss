@@ -1,0 +1,95 @@
+// Import our base theme
+
+/** Import Bootstrap functions */
+@import "bootstrap/scss/functions";
+
+/** Import theme variables */
+@import "../../themes/doks/assets/scss/common/variables";
+
+$response: #4F46E5;
+$response-darker: #312E81;
+
+$primary: $response;
+$secondary: $response-darker;
+
+$link-color: $primary;
+$link-hover-color: $secondary;
+
+/** Import Bootstrap */
+@import "bootstrap/scss/bootstrap";
+
+/** Import theme styles */
+@import "../../themes/doks/assets/scss/common/fonts";
+@import "../../themes/doks/assets/scss/common/global";
+@import "../../themes/doks/assets/scss/common/dark";
+@import "../../themes/doks/assets/scss/components/alerts";
+@import "../../themes/doks/assets/scss/components/buttons";
+@import "../../themes/doks/assets/scss/components/code";
+@import "../../themes/doks/assets/scss/components/syntax";
+@import "../../themes/doks/assets/scss/components/comments";
+@import "../../themes/doks/assets/scss/components/forms";
+@import "../../themes/doks/assets/scss/components/images";
+@import "../../themes/doks/assets/scss/components/search";
+@import "../../themes/doks/assets/scss/components/tables";
+@import "../../themes/doks/assets/scss/layouts/footer";
+@import "../../themes/doks/assets/scss/layouts/header";
+@import "../../themes/doks/assets/scss/layouts/pages";
+@import "../../themes/doks/assets/scss/layouts/posts";
+@import "../../themes/doks/assets/scss/layouts/sidebar";
+
+
+::selection {
+  background: lighten($primary, 25%);
+}
+
+:root {
+  --response: #4F46E5;
+  --response-red: #DC2626;
+  --response-darker: #312E81;
+}
+
+.header-bar {
+  border-top: none;
+  height: 4px;
+  background: linear-gradient(90deg, var(--response), var(--response-red), var(--response));
+  background-size: 200% 200%;
+
+  -webkit-animation: headerBarGradient 15s ease infinite;
+  -moz-animation: headerBarGradient 15s ease infinite;
+  animation: headerBarGradient 15s ease infinite;
+}
+
+@-webkit-keyframes headerBarGradient {
+  0%{background-position:0% 0%}
+  50%{background-position:200% 0%}
+  100%{background-position:400% 0%}
+}
+@-moz-keyframes headerBarGradient {
+  0%{background-position:0% 0%}
+  50%{background-position:200% 0%}
+  100%{background-position:400% 0%}
+}
+@keyframes headerBarGradient {
+  0%{background-position:0% 0%}
+  50%{background-position:200% 0%}
+  100%{background-position:400% 0%}
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  color: var(--response);
+}
+
+.home .btn-primary:hover {
+  background-color: var(--response-darker);
+  border-color: var(--response-darker);
+}
+
+.docs-link:hover,
+.docs-link.active,
+.page-links a:hover {
+  color: var(--response-darker);
+}
+
+pre, code {
+  background-color: #f6f8fa;
+}

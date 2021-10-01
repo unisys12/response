@@ -1,0 +1,70 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+{{define "base"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<title>{{template "title" .}} - Response</title>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tailwindcss/forms@0.3.3/dist/forms.min.css"
+		  integrity="sha256-wuwjgngnXj2SKwJy+qNkNDY9B9j0uf9eqjwuXFRSfgI=" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css"
+		integrity="sha256-rYrex1Z71NPMJpBbyeypENoPmdFBkcNbI10ZkyM8OHo=" crossorigin="anonymous" />
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css"
+	    integrity="sha512-P9vJUXK+LyvAzj8otTOKzdfF1F3UYVl13+F8Fof8/2QNb8Twd6Vb+VD52I7+87tex9UXxnzPgWA3rH96RExA7A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/brands.min.css"
+	    integrity="sha512-sVSECYdnRMezwuq5uAjKQJEcu2wybeAPjU4VJQ9pCRcCY4pIpIw4YMHIOQ0CypfwHRvdSPbH++dA3O4Hihm/LQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+	<style lang="text/css">
+		:root {
+			--response: #4F46E5;
+			--response-red: #DC2626;
+			--response-darker: #312E81;
+		}
+
+		.header-bar {
+			position: fixed;
+			top: 0;
+			width: 100%;
+			border-top: none;
+			height: 6px;
+			background: linear-gradient(90deg, var(--response), var(--response-red), var(--response));
+			background-size: 200% 200%;
+
+			-webkit-animation: headerBarGradient 15s ease infinite;
+			-moz-animation: headerBarGradient 15s ease infinite;
+			animation: headerBarGradient 15s ease infinite;
+		}
+
+		@-webkit-keyframes headerBarGradient {
+			0%{background-position:0% 0%}
+			50%{background-position:200% 0%}
+			100%{background-position:400% 0%}
+		}
+		@-moz-keyframes headerBarGradient {
+			0%{background-position:0% 0%}
+			50%{background-position:200% 0%}
+			100%{background-position:400% 0%}
+		}
+		@keyframes headerBarGradient {
+			0%{background-position:0% 0%}
+			50%{background-position:200% 0%}
+			100%{background-position:400% 0%}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="header-bar "></div>
+	<div class="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+		{{template "content" .}}
+	</div>
+</body>
+
+</html>
+{{end}}

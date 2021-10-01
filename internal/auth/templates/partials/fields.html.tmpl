@@ -1,0 +1,71 @@
+{{define "csrf"}}
+    <input type="hidden" name="_csrf" value="{{.csrfToken}}" />
+{{end}}
+
+{{define "name"}}
+    {{ $field := dict }}
+    {{ $field = set $field "name" "name" }}
+    {{ $field = set $field "label" "Name" }}
+    {{ $field = set $field "type" "text" }}
+    {{ $field = htmlAttr "required" "autocomplete=name" | set $field "attr" }}
+
+    {{ template "field" $field }}
+
+    {{if .errors}}
+        {{if len .errors.name | gt 0}}
+            {{range $error := .errors}}
+                {{template "field-error" $error}}
+            {{end}}
+        {{end}}
+    {{end}}
+{{end}}
+
+{{define "email"}}
+    {{ $field := dict }}
+    {{ $field = set $field "name" "email" }}
+    {{ $field = set $field "label" "Email" }}
+    {{ $field = set $field "type" "email" }}
+    {{ $field = htmlAttr "required" "autocomplete=email" | set $field "attr" }}
+
+    {{ template "field" $field }}
+
+    {{if .errors}}
+        {{if len .errors.email | gt 0}}
+            {{range $error := .errors}}
+                {{template "field-error" $error}}
+            {{end}}
+        {{end}}
+    {{end}}
+{{end}}
+
+{{define "password"}}
+    {{ $field := dict }}
+    {{ $field = set $field "name" "password" }}
+    {{ $field = set $field "label" "Password" }}
+    {{ $field = set $field "type" "password" }}
+    {{ $field = htmlAttr "required" "autocomplete=password" | set $field "attr" }}
+
+    {{ template "field" $field }}
+
+    {{if .errors}}
+        {{if len .errors.email | gt 0}}
+            {{range $error := .errors}}
+                {{template "field-error" $error}}
+            {{end}}
+        {{end}}
+    {{end}}
+{{end}}
+
+{{define "field-error"}}
+    <p class="mt-0.5 text-sm text-red-600 ml-1">{{.}}</p>
+{{end}}
+
+{{define "field"}}
+    <label for="{{ .name }}" class="block text-sm font-medium text-gray-700">
+        {{ .label }}
+    </label>
+
+    <div class="mt-1">
+        <input id="{{ .name }}" name="{{ .name }}" type="{{ .type }}" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" {{ .attr }}>
+    </div>
+{{end}}

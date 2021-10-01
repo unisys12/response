@@ -1,0 +1,37 @@
+
+type Ethnicity implements Node {
+    id: ID!
+    short: String!
+    title: String!
+    description: String
+    created_at: Time!
+    created_by: User
+    updated_at: Time
+    updated_by: User
+}
+
+extend type Query {
+    ethnicities: [Ethnicity!]
+}
+
+input CreateEthnicity {
+    short: String!
+    title: String!
+    description: String
+}
+
+input UpdateEthnicity {
+    short: String!
+    title: String!
+    description: String
+}
+
+extend type Mutation {
+    createEthnicity(input: CreateEthnicity!): Ethnicity
+    updateEthnicity(id: ID!, input: UpdateEthnicity!): Ethnicity
+    deleteEthnicity(id: ID!): Boolean!
+}
+
+extend type Person {
+    ethnicity: Ethnicity
+}

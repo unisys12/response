@@ -1,0 +1,26 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  generate:
+    cmds:
+      - go generate ./...
+      - gqlgen
+    silent: true
+
+  serve:
+    cmds:
+      - go run main.go serve --apply-schema
+    silent: true
+
+  dev:
+    cmds:
+      - task: serve
+    sources:
+      - ./**/*.go
+      - ./**/*.html.tmpl
+    silent: true
