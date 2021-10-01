@@ -3,9 +3,12 @@ package serve
 import (
 	"context"
 	"fmt"
+	"os"
+
+	"github.com/rs/zerolog"
+
 	"github.com/fatih/color"
 	"github.com/responserms/response/server"
-	"os"
 
 	"github.com/contaim/spec"
 	_ "github.com/fatih/color"
@@ -61,7 +64,14 @@ func handleServe(cmd *cobra.Command, args []string) {
 	}
 
 	if serveFlagLogLevel != "" {
-		//cfg.SetLogLevelFromStr(serveFlagLogLevel)
+		level, err := zerolog.ParseLevel(serveFlagLogLevel)
+		if err != nil {
+			fmt.Printf("Invalid log level provided: %s", err.Error())
+
+			return
+		}
+
+		cfg.LogLevel = level
 	}
 
 	if serveFlagPprof {

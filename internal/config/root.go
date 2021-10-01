@@ -4,6 +4,8 @@ import (
 	"encoding/base64"
 	"fmt"
 
+	"github.com/rs/zerolog"
+
 	"github.com/hashicorp/hcl/v2"
 )
 
@@ -55,6 +57,7 @@ func (r *root) ToConfig() (*Config, error) {
 		EncryptionKey: encryptionKey,
 		HideBanner:    r.HideBanner,
 		HideServing:   r.HideServing,
+		LogLevel:      zerolog.InfoLevel,
 	}
 
 	if err := r.UIDirs.Apply(config); err != nil {

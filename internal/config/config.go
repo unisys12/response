@@ -5,6 +5,8 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/rs/zerolog"
+
 	"golang.org/x/oauth2"
 )
 
@@ -17,6 +19,7 @@ type Config struct {
 	EncryptionKey    []byte
 	UIDirConsoleDist string
 	UIDirAuthPages   string
+	LogLevel         zerolog.Level
 
 	// Terminal Output
 	HideBanner  bool

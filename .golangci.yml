@@ -1,0 +1,28 @@
+run:
+  timeout: 1m
+  issue-exit-code: 1
+  tests: true
+  skip-dirs:
+    - ui/
+    - internal/ent
+    - internal/graphql/types
+    - internal/graphql/server
+  skip-dirs-use-default: true
+output:
+  format: colored-line-number
+  print-issued-lines: false
+  print-linter-name: true
+  unique-by-line: true
+  sort-results: true
+linters-settings:
+  cyclop:
+    max-complexity: 10
+    package-average: 0.0
+    skip-tests: false
+  dogsled:
+    max-blank-identifiers: 2
+  dupl:
+    threshold: 150
+  errcheck:
+    check-type-assertions: false
+    check-blank: false

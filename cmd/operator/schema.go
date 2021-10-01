@@ -93,7 +93,7 @@ func handleSchemaCommand(cmd *cobra.Command, args []string) {
 	}
 
 	// We're only writing the changes for the schema here.
-	if schemaFlagApply == false {
+	if !schemaFlagApply {
 		if err := app.WriteSchemaChanges(ctx, nil, out); err != nil {
 			fmt.Printf("Unable to write schema changes: %s\n", color.RedString(err.Error()))
 		}
