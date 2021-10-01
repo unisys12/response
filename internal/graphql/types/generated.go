@@ -2,45 +2,10 @@
 
 package types
 
-import (
-	"github.com/responserms/response/internal/ent"
-)
-
 type Error interface {
 	IsError()
 }
 
-type RegistrationErrors interface {
-	IsRegistrationErrors()
-}
-
 type ConsoleSettings struct {
 	Data map[string]interface{} `json:"data"`
-}
-
-type EmailAlreadyExists struct {
-	Path    []string `json:"path"`
-	Message string   `json:"message"`
-}
-
-func (EmailAlreadyExists) IsError()              {}
-func (EmailAlreadyExists) IsRegistrationErrors() {}
-
-type PasswordAuthDisabled struct {
-	Path    []string `json:"path"`
-	Message string   `json:"message"`
-}
-
-func (PasswordAuthDisabled) IsError()              {}
-func (PasswordAuthDisabled) IsRegistrationErrors() {}
-
-type RegistrationData struct {
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
-type RegistrationResult struct {
-	Errors []RegistrationErrors `json:"errors"`
-	User   *ent.User            `json:"user"`
 }

@@ -55,11 +55,6 @@ type ComplexityRoot struct {
 		Data func(childComplexity int) int
 	}
 
-	EmailAlreadyExists struct {
-		Message func(childComplexity int) int
-		Path    func(childComplexity int) int
-	}
-
 	Ethnicity struct {
 		CreatedAt   func(childComplexity int) int
 		CreatedBy   func(childComplexity int) int
@@ -72,33 +67,27 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		ArchivePerson        func(childComplexity int, id int) int
-		ClaimPerson          func(childComplexity int, id int) int
-		CreateEthnicity      func(childComplexity int, input ent.CreateEthnicity) int
-		CreatePerson         func(childComplexity int, input ent.CreatePerson) int
-		CreateRace           func(childComplexity int, input ent.CreateRace) int
-		CreateSex            func(childComplexity int, input ent.CreateSex) int
-		DeleteEthnicity      func(childComplexity int, id int) int
-		DeleteRace           func(childComplexity int, id int) int
-		DeleteSex            func(childComplexity int, id int) int
-		RegisterWithPassword func(childComplexity int, input types.RegistrationData) int
-		RestorePerson        func(childComplexity int, id int) int
-		SetPersonAlive       func(childComplexity int, id int) int
-		SetPersonDeceased    func(childComplexity int, id int, cause string) int
-		SurrenderPerson      func(childComplexity int, id int) int
-		UpdateEthnicity      func(childComplexity int, id int, input ent.UpdateEthnicity) int
-		UpdatePerson         func(childComplexity int, id int, input ent.UpdatePerson) int
-		UpdateRace           func(childComplexity int, id int, input ent.UpdateRace) int
-		UpdateSex            func(childComplexity int, id int, input ent.UpdateSex) int
+		ArchivePerson     func(childComplexity int, id int) int
+		ClaimPerson       func(childComplexity int, id int) int
+		CreateEthnicity   func(childComplexity int, input ent.CreateEthnicity) int
+		CreatePerson      func(childComplexity int, input ent.CreatePerson) int
+		CreateRace        func(childComplexity int, input ent.CreateRace) int
+		CreateSex         func(childComplexity int, input ent.CreateSex) int
+		DeleteEthnicity   func(childComplexity int, id int) int
+		DeleteRace        func(childComplexity int, id int) int
+		DeleteSex         func(childComplexity int, id int) int
+		RestorePerson     func(childComplexity int, id int) int
+		SetPersonAlive    func(childComplexity int, id int) int
+		SetPersonDeceased func(childComplexity int, id int, cause string) int
+		SurrenderPerson   func(childComplexity int, id int) int
+		UpdateEthnicity   func(childComplexity int, id int, input ent.UpdateEthnicity) int
+		UpdatePerson      func(childComplexity int, id int, input ent.UpdatePerson) int
+		UpdateRace        func(childComplexity int, id int, input ent.UpdateRace) int
+		UpdateSex         func(childComplexity int, id int, input ent.UpdateSex) int
 	}
 
 	OAuthConnection struct {
-		CreatedAt      func(childComplexity int) int
-		Name           func(childComplexity int) int
-		Provider       func(childComplexity int) int
-		ProviderUserID func(childComplexity int) int
-		UpdatedAt      func(childComplexity int) int
-		User           func(childComplexity int) int
+		User func(childComplexity int) int
 	}
 
 	PageInfo struct {
@@ -106,11 +95,6 @@ type ComplexityRoot struct {
 		HasNextPage     func(childComplexity int) int
 		HasPreviousPage func(childComplexity int) int
 		StartCursor     func(childComplexity int) int
-	}
-
-	PasswordAuthDisabled struct {
-		Message func(childComplexity int) int
-		Path    func(childComplexity int) int
 	}
 
 	Person struct {
@@ -158,11 +142,6 @@ type ComplexityRoot struct {
 		UpdatedBy   func(childComplexity int) int
 	}
 
-	RegistrationResult struct {
-		Errors func(childComplexity int) int
-		User   func(childComplexity int) int
-	}
-
 	Sex struct {
 		CreatedAt   func(childComplexity int) int
 		CreatedBy   func(childComplexity int) int
@@ -181,7 +160,6 @@ type ComplexityRoot struct {
 		FirstSetupCompleted func(childComplexity int) int
 		ID                  func(childComplexity int) int
 		Name                func(childComplexity int) int
-		OauthConnections    func(childComplexity int) int
 		People              func(childComplexity int) int
 		UpdatedAt           func(childComplexity int) int
 	}
@@ -193,7 +171,6 @@ type EthnicityResolver interface {
 	UpdatedBy(ctx context.Context, obj *ent.Ethnicity) (*ent.User, error)
 }
 type MutationResolver interface {
-	RegisterWithPassword(ctx context.Context, input types.RegistrationData) (*types.RegistrationResult, error)
 	CreateEthnicity(ctx context.Context, input ent.CreateEthnicity) (*ent.Ethnicity, error)
 	UpdateEthnicity(ctx context.Context, id int, input ent.UpdateEthnicity) (*ent.Ethnicity, error)
 	DeleteEthnicity(ctx context.Context, id int) (bool, error)
@@ -258,20 +235,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.ConsoleSettings.Data(childComplexity), true
-
-	case "EmailAlreadyExists.message":
-		if e.complexity.EmailAlreadyExists.Message == nil {
-			break
-		}
-
-		return e.complexity.EmailAlreadyExists.Message(childComplexity), true
-
-	case "EmailAlreadyExists.path":
-		if e.complexity.EmailAlreadyExists.Path == nil {
-			break
-		}
-
-		return e.complexity.EmailAlreadyExists.Path(childComplexity), true
 
 	case "Ethnicity.created_at":
 		if e.complexity.Ethnicity.CreatedAt == nil {
@@ -437,18 +400,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.DeleteSex(childComplexity, args["id"].(int)), true
 
-	case "Mutation.registerWithPassword":
-		if e.complexity.Mutation.RegisterWithPassword == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_registerWithPassword_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.RegisterWithPassword(childComplexity, args["input"].(types.RegistrationData)), true
-
 	case "Mutation.restorePerson":
 		if e.complexity.Mutation.RestorePerson == nil {
 			break
@@ -545,41 +496,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdateSex(childComplexity, args["id"].(int), args["input"].(ent.UpdateSex)), true
 
-	case "OAuthConnection.created_at":
-		if e.complexity.OAuthConnection.CreatedAt == nil {
-			break
-		}
-
-		return e.complexity.OAuthConnection.CreatedAt(childComplexity), true
-
-	case "OAuthConnection.name":
-		if e.complexity.OAuthConnection.Name == nil {
-			break
-		}
-
-		return e.complexity.OAuthConnection.Name(childComplexity), true
-
-	case "OAuthConnection.provider":
-		if e.complexity.OAuthConnection.Provider == nil {
-			break
-		}
-
-		return e.complexity.OAuthConnection.Provider(childComplexity), true
-
-	case "OAuthConnection.provider_user_id":
-		if e.complexity.OAuthConnection.ProviderUserID == nil {
-			break
-		}
-
-		return e.complexity.OAuthConnection.ProviderUserID(childComplexity), true
-
-	case "OAuthConnection.updated_at":
-		if e.complexity.OAuthConnection.UpdatedAt == nil {
-			break
-		}
-
-		return e.complexity.OAuthConnection.UpdatedAt(childComplexity), true
-
 	case "OAuthConnection.user":
 		if e.complexity.OAuthConnection.User == nil {
 			break
@@ -614,20 +530,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.PageInfo.StartCursor(childComplexity), true
-
-	case "PasswordAuthDisabled.message":
-		if e.complexity.PasswordAuthDisabled.Message == nil {
-			break
-		}
-
-		return e.complexity.PasswordAuthDisabled.Message(childComplexity), true
-
-	case "PasswordAuthDisabled.path":
-		if e.complexity.PasswordAuthDisabled.Path == nil {
-			break
-		}
-
-		return e.complexity.PasswordAuthDisabled.Path(childComplexity), true
 
 	case "Person.age":
 		if e.complexity.Person.Age == nil {
@@ -854,20 +756,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Race.UpdatedBy(childComplexity), true
 
-	case "RegistrationResult.errors":
-		if e.complexity.RegistrationResult.Errors == nil {
-			break
-		}
-
-		return e.complexity.RegistrationResult.Errors(childComplexity), true
-
-	case "RegistrationResult.user":
-		if e.complexity.RegistrationResult.User == nil {
-			break
-		}
-
-		return e.complexity.RegistrationResult.User(childComplexity), true
-
 	case "Sex.created_at":
 		if e.complexity.Sex.CreatedAt == nil {
 			break
@@ -965,13 +853,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.User.Name(childComplexity), true
-
-	case "User.oauth_connections":
-		if e.complexity.User.OauthConnections == nil {
-			break
-		}
-
-		return e.complexity.User.OauthConnections(childComplexity), true
 
 	case "User.people":
 		if e.complexity.User.People == nil {
@@ -1098,67 +979,6 @@ type Query {
     node(id: ID!): Node
     nodes(ids: [ID!]): [Node]!
 }`, BuiltIn: false},
-	{Name: "graphql/auth/auth.graphql", Input: `
-input RegistrationData {
-    name: String!
-    email: String!
-    password: String!
-}
-
-type PasswordAuthDisabled implements Error {
-    path: [String!]
-    message: String!
-}
-
-type EmailAlreadyExists implements Error {
-    path: [String!]
-    message: String!
-}
-
-union RegistrationErrors = PasswordAuthDisabled |
-    EmailAlreadyExists
-
-type RegistrationResult {
-    errors: [RegistrationErrors!]
-    user: User
-}
-
-extend type Mutation {
-    """
-    Register for Response using an email/password. This is used when password auth is enabled and the user
-    does not wish to login/register with an OAuth 2.0 provider.
-
-    If password auth is disabled the mutation will fail.
-    """
-    registerWithPassword(input: RegistrationData!): RegistrationResult!
-}`, BuiltIn: false},
-	{Name: "graphql/auth/oauth.graphql", Input: `
-type OAuthConnection {
-    provider: String!
-    provider_user_id: String!
-    name: String!
-    created_at: Time!
-    updated_at: Time
-}
-
-extend type User {
-    oauth_connections: [OAuthConnection!]
-}
-
-#type OAuthProvider {
-#    "Registration key in the Response Config."
-#    key: String!
-#    "FontAwesome icon used in the OAuth 2.0 provoider's login button."
-#    icon: String
-#    "The friendly name for the OAuth 2.0 provider."
-#    name: String!
-#    "Returns a path for logging in to Response with an OAuthProvider or connecting an OAuthProvider account to Response."
-#    login_url(redirect: String!): String
-#}
-#
-#extend type Query {
-#    authableOAuthProviders: [OAuthProvider!]
-#}`, BuiltIn: false},
 	{Name: "graphql/entities/ethnicity.graphql", Input: `
 type Ethnicity implements Node {
     id: ID!
@@ -5095,21 +4915,6 @@ func (ec *executionContext) field_Mutation_deleteSex_args(ctx context.Context, r
 	return args, nil
 }
 
-func (ec *executionContext) field_Mutation_registerWithPassword_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 types.RegistrationData
-	if tmp, ok := rawArgs["input"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNRegistrationData2githubᚗcomᚋresponsermsᚋresponseᚋinternalᚋgraphqlᚋtypesᚐRegistrationData(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
-	return args, nil
-}
-
 func (ec *executionContext) field_Mutation_restorePerson_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
@@ -5405,73 +5210,6 @@ func (ec *executionContext) _ConsoleSettings_data(ctx context.Context, field gra
 	return ec.marshalOMap2map(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _EmailAlreadyExists_path(ctx context.Context, field graphql.CollectedField, obj *types.EmailAlreadyExists) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "EmailAlreadyExists",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Path, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]string)
-	fc.Result = res
-	return ec.marshalOString2ᚕstringᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _EmailAlreadyExists_message(ctx context.Context, field graphql.CollectedField, obj *types.EmailAlreadyExists) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "EmailAlreadyExists",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Message, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Ethnicity_id(ctx context.Context, field graphql.CollectedField, obj *ent.Ethnicity) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -5738,48 +5476,6 @@ func (ec *executionContext) _Ethnicity_updated_by(ctx context.Context, field gra
 	res := resTmp.(*ent.User)
 	fc.Result = res
 	return ec.marshalOUser2ᚖgithubᚗcomᚋresponsermsᚋresponseᚋinternalᚋentᚐUser(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_registerWithPassword(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   true,
-		IsResolver: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_registerWithPassword_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().RegisterWithPassword(rctx, args["input"].(types.RegistrationData))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*types.RegistrationResult)
-	fc.Result = res
-	return ec.marshalNRegistrationResult2ᚖgithubᚗcomᚋresponsermsᚋresponseᚋinternalᚋgraphqlᚋtypesᚐRegistrationResult(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_createEthnicity(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -6454,178 +6150,6 @@ func (ec *executionContext) _Mutation_deleteSex(ctx context.Context, field graph
 	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _OAuthConnection_provider(ctx context.Context, field graphql.CollectedField, obj *ent.OAuthConnection) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "OAuthConnection",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Provider, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _OAuthConnection_provider_user_id(ctx context.Context, field graphql.CollectedField, obj *ent.OAuthConnection) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "OAuthConnection",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ProviderUserID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _OAuthConnection_name(ctx context.Context, field graphql.CollectedField, obj *ent.OAuthConnection) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "OAuthConnection",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _OAuthConnection_created_at(ctx context.Context, field graphql.CollectedField, obj *ent.OAuthConnection) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "OAuthConnection",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CreatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _OAuthConnection_updated_at(ctx context.Context, field graphql.CollectedField, obj *ent.OAuthConnection) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "OAuthConnection",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.UpdatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _OAuthConnection_user(ctx context.Context, field graphql.CollectedField, obj *ent.OAuthConnection) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -6790,73 +6314,6 @@ func (ec *executionContext) _PageInfo_endCursor(ctx context.Context, field graph
 	res := resTmp.(*ent.Cursor)
 	fc.Result = res
 	return ec.marshalOCursor2ᚖgithubᚗcomᚋresponsermsᚋresponseᚋinternalᚋentᚐCursor(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _PasswordAuthDisabled_path(ctx context.Context, field graphql.CollectedField, obj *types.PasswordAuthDisabled) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "PasswordAuthDisabled",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Path, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]string)
-	fc.Result = res
-	return ec.marshalOString2ᚕstringᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _PasswordAuthDisabled_message(ctx context.Context, field graphql.CollectedField, obj *types.PasswordAuthDisabled) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "PasswordAuthDisabled",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Message, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Person_first_name(ctx context.Context, field graphql.CollectedField, obj *ent.Person) (ret graphql.Marshaler) {
@@ -7944,70 +7401,6 @@ func (ec *executionContext) _Race_updated_by(ctx context.Context, field graphql.
 	return ec.marshalOUser2ᚖgithubᚗcomᚋresponsermsᚋresponseᚋinternalᚋentᚐUser(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _RegistrationResult_errors(ctx context.Context, field graphql.CollectedField, obj *types.RegistrationResult) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "RegistrationResult",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Errors, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]types.RegistrationErrors)
-	fc.Result = res
-	return ec.marshalORegistrationErrors2ᚕgithubᚗcomᚋresponsermsᚋresponseᚋinternalᚋgraphqlᚋtypesᚐRegistrationErrorsᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _RegistrationResult_user(ctx context.Context, field graphql.CollectedField, obj *types.RegistrationResult) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "RegistrationResult",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.User, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*ent.User)
-	fc.Result = res
-	return ec.marshalOUser2ᚖgithubᚗcomᚋresponsermsᚋresponseᚋinternalᚋentᚐUser(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Sex_id(ctx context.Context, field graphql.CollectedField, obj *ent.Sex) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -8516,38 +7909,6 @@ func (ec *executionContext) _User_updated_at(ctx context.Context, field graphql.
 	res := resTmp.(time.Time)
 	fc.Result = res
 	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _User_oauth_connections(ctx context.Context, field graphql.CollectedField, obj *ent.User) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "User",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   true,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.OauthConnections(ctx)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.([]*ent.OAuthConnection)
-	fc.Result = res
-	return ec.marshalOOAuthConnection2ᚕᚖgithubᚗcomᚋresponsermsᚋresponseᚋinternalᚋentᚐOAuthConnectionᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _User_people(ctx context.Context, field graphql.CollectedField, obj *ent.User) (ret graphql.Marshaler) {
@@ -22047,45 +21408,6 @@ func (ec *executionContext) unmarshalInputRaceWhereInput(ctx context.Context, ob
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputRegistrationData(ctx context.Context, obj interface{}) (types.RegistrationData, error) {
-	var it types.RegistrationData
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
-		asMap[k] = v
-	}
-
-	for k, v := range asMap {
-		switch k {
-		case "name":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			it.Name, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "email":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
-			it.Email, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "password":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("password"))
-			it.Password, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
 func (ec *executionContext) unmarshalInputSessionWhereInput(ctx context.Context, obj interface{}) (ent.SessionWhereInput, error) {
 	var it ent.SessionWhereInput
 	asMap := map[string]interface{}{}
@@ -33207,20 +32529,6 @@ func (ec *executionContext) _Error(ctx context.Context, sel ast.SelectionSet, ob
 	switch obj := (obj).(type) {
 	case nil:
 		return graphql.Null
-	case types.PasswordAuthDisabled:
-		return ec._PasswordAuthDisabled(ctx, sel, &obj)
-	case *types.PasswordAuthDisabled:
-		if obj == nil {
-			return graphql.Null
-		}
-		return ec._PasswordAuthDisabled(ctx, sel, obj)
-	case types.EmailAlreadyExists:
-		return ec._EmailAlreadyExists(ctx, sel, &obj)
-	case *types.EmailAlreadyExists:
-		if obj == nil {
-			return graphql.Null
-		}
-		return ec._EmailAlreadyExists(ctx, sel, obj)
 	default:
 		panic(fmt.Errorf("unexpected type %T", obj))
 	}
@@ -33250,29 +32558,6 @@ func (ec *executionContext) _Node(ctx context.Context, sel ast.SelectionSet, obj
 	}
 }
 
-func (ec *executionContext) _RegistrationErrors(ctx context.Context, sel ast.SelectionSet, obj types.RegistrationErrors) graphql.Marshaler {
-	switch obj := (obj).(type) {
-	case nil:
-		return graphql.Null
-	case types.PasswordAuthDisabled:
-		return ec._PasswordAuthDisabled(ctx, sel, &obj)
-	case *types.PasswordAuthDisabled:
-		if obj == nil {
-			return graphql.Null
-		}
-		return ec._PasswordAuthDisabled(ctx, sel, obj)
-	case types.EmailAlreadyExists:
-		return ec._EmailAlreadyExists(ctx, sel, &obj)
-	case *types.EmailAlreadyExists:
-		if obj == nil {
-			return graphql.Null
-		}
-		return ec._EmailAlreadyExists(ctx, sel, obj)
-	default:
-		panic(fmt.Errorf("unexpected type %T", obj))
-	}
-}
-
 // endregion ************************** interface.gotpl ***************************
 
 // region    **************************** object.gotpl ****************************
@@ -33290,35 +32575,6 @@ func (ec *executionContext) _ConsoleSettings(ctx context.Context, sel ast.Select
 			out.Values[i] = graphql.MarshalString("ConsoleSettings")
 		case "data":
 			out.Values[i] = ec._ConsoleSettings_data(ctx, field, obj)
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var emailAlreadyExistsImplementors = []string{"EmailAlreadyExists", "Error", "RegistrationErrors"}
-
-func (ec *executionContext) _EmailAlreadyExists(ctx context.Context, sel ast.SelectionSet, obj *types.EmailAlreadyExists) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, emailAlreadyExistsImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("EmailAlreadyExists")
-		case "path":
-			out.Values[i] = ec._EmailAlreadyExists_path(ctx, field, obj)
-		case "message":
-			out.Values[i] = ec._EmailAlreadyExists_message(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -33413,11 +32669,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Mutation")
-		case "registerWithPassword":
-			out.Values[i] = ec._Mutation_registerWithPassword(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
 		case "createEthnicity":
 			out.Values[i] = ec._Mutation_createEthnicity(ctx, field)
 		case "updateEthnicity":
@@ -33483,28 +32734,6 @@ func (ec *executionContext) _OAuthConnection(ctx context.Context, sel ast.Select
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("OAuthConnection")
-		case "provider":
-			out.Values[i] = ec._OAuthConnection_provider(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
-			}
-		case "provider_user_id":
-			out.Values[i] = ec._OAuthConnection_provider_user_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
-			}
-		case "name":
-			out.Values[i] = ec._OAuthConnection_name(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
-			}
-		case "created_at":
-			out.Values[i] = ec._OAuthConnection_created_at(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
-			}
-		case "updated_at":
-			out.Values[i] = ec._OAuthConnection_updated_at(ctx, field, obj)
 		case "user":
 			field := field
 			out.Concurrently(i, func() (res graphql.Marshaler) {
@@ -33552,35 +32781,6 @@ func (ec *executionContext) _PageInfo(ctx context.Context, sel ast.SelectionSet,
 			out.Values[i] = ec._PageInfo_startCursor(ctx, field, obj)
 		case "endCursor":
 			out.Values[i] = ec._PageInfo_endCursor(ctx, field, obj)
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var passwordAuthDisabledImplementors = []string{"PasswordAuthDisabled", "Error", "RegistrationErrors"}
-
-func (ec *executionContext) _PasswordAuthDisabled(ctx context.Context, sel ast.SelectionSet, obj *types.PasswordAuthDisabled) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, passwordAuthDisabledImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("PasswordAuthDisabled")
-		case "path":
-			out.Values[i] = ec._PasswordAuthDisabled_path(ctx, field, obj)
-		case "message":
-			out.Values[i] = ec._PasswordAuthDisabled_message(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -33911,32 +33111,6 @@ func (ec *executionContext) _Race(ctx context.Context, sel ast.SelectionSet, obj
 	return out
 }
 
-var registrationResultImplementors = []string{"RegistrationResult"}
-
-func (ec *executionContext) _RegistrationResult(ctx context.Context, sel ast.SelectionSet, obj *types.RegistrationResult) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, registrationResultImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("RegistrationResult")
-		case "errors":
-			out.Values[i] = ec._RegistrationResult_errors(ctx, field, obj)
-		case "user":
-			out.Values[i] = ec._RegistrationResult_user(ctx, field, obj)
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
 var sexImplementors = []string{"Sex", "Node"}
 
 func (ec *executionContext) _Sex(ctx context.Context, sel ast.SelectionSet, obj *ent.Sex) graphql.Marshaler {
@@ -34057,17 +33231,6 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&invalids, 1)
 			}
-		case "oauth_connections":
-			field := field
-			out.Concurrently(i, func() (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._User_oauth_connections(ctx, field, obj)
-				return res
-			})
 		case "people":
 			field := field
 			out.Concurrently(i, func() (res graphql.Marshaler) {
@@ -34498,16 +33661,6 @@ func (ec *executionContext) marshalNNode2ᚕgithubᚗcomᚋresponsermsᚋrespons
 	return ret
 }
 
-func (ec *executionContext) marshalNOAuthConnection2ᚖgithubᚗcomᚋresponsermsᚋresponseᚋinternalᚋentᚐOAuthConnection(ctx context.Context, sel ast.SelectionSet, v *ent.OAuthConnection) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._OAuthConnection(ctx, sel, v)
-}
-
 func (ec *executionContext) unmarshalNOAuthConnectionWhereInput2ᚖgithubᚗcomᚋresponsermsᚋresponseᚋinternalᚋentᚐOAuthConnectionWhereInput(ctx context.Context, v interface{}) (*ent.OAuthConnectionWhereInput, error) {
 	res, err := ec.unmarshalInputOAuthConnectionWhereInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
@@ -34565,35 +33718,6 @@ func (ec *executionContext) marshalNRace2ᚖgithubᚗcomᚋresponsermsᚋrespons
 func (ec *executionContext) unmarshalNRaceWhereInput2ᚖgithubᚗcomᚋresponsermsᚋresponseᚋinternalᚋentᚐRaceWhereInput(ctx context.Context, v interface{}) (*ent.RaceWhereInput, error) {
 	res, err := ec.unmarshalInputRaceWhereInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) unmarshalNRegistrationData2githubᚗcomᚋresponsermsᚋresponseᚋinternalᚋgraphqlᚋtypesᚐRegistrationData(ctx context.Context, v interface{}) (types.RegistrationData, error) {
-	res, err := ec.unmarshalInputRegistrationData(ctx, v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalNRegistrationErrors2githubᚗcomᚋresponsermsᚋresponseᚋinternalᚋgraphqlᚋtypesᚐRegistrationErrors(ctx context.Context, sel ast.SelectionSet, v types.RegistrationErrors) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._RegistrationErrors(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNRegistrationResult2githubᚗcomᚋresponsermsᚋresponseᚋinternalᚋgraphqlᚋtypesᚐRegistrationResult(ctx context.Context, sel ast.SelectionSet, v types.RegistrationResult) graphql.Marshaler {
-	return ec._RegistrationResult(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNRegistrationResult2ᚖgithubᚗcomᚋresponsermsᚋresponseᚋinternalᚋgraphqlᚋtypesᚐRegistrationResult(ctx context.Context, sel ast.SelectionSet, v *types.RegistrationResult) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	return ec._RegistrationResult(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNSessionWhereInput2ᚖgithubᚗcomᚋresponsermsᚋresponseᚋinternalᚋentᚐSessionWhereInput(ctx context.Context, v interface{}) (*ent.SessionWhereInput, error) {
@@ -35443,53 +34567,6 @@ func (ec *executionContext) marshalONode2githubᚗcomᚋresponsermsᚋresponse�
 	return ec._Node(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOOAuthConnection2ᚕᚖgithubᚗcomᚋresponsermsᚋresponseᚋinternalᚋentᚐOAuthConnectionᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.OAuthConnection) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNOAuthConnection2ᚖgithubᚗcomᚋresponsermsᚋresponseᚋinternalᚋentᚐOAuthConnection(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
 func (ec *executionContext) unmarshalOOAuthConnectionWhereInput2ᚕᚖgithubᚗcomᚋresponsermsᚋresponseᚋinternalᚋentᚐOAuthConnectionWhereInputᚄ(ctx context.Context, v interface{}) ([]*ent.OAuthConnectionWhereInput, error) {
 	if v == nil {
 		return nil, nil
@@ -35820,53 +34897,6 @@ func (ec *executionContext) unmarshalORaceWhereInput2ᚖgithubᚗcomᚋresponser
 	}
 	res, err := ec.unmarshalInputRaceWhereInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalORegistrationErrors2ᚕgithubᚗcomᚋresponsermsᚋresponseᚋinternalᚋgraphqlᚋtypesᚐRegistrationErrorsᚄ(ctx context.Context, sel ast.SelectionSet, v []types.RegistrationErrors) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNRegistrationErrors2githubᚗcomᚋresponsermsᚋresponseᚋinternalᚋgraphqlᚋtypesᚐRegistrationErrors(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
 }
 
 func (ec *executionContext) unmarshalOSessionWhereInput2ᚕᚖgithubᚗcomᚋresponsermsᚋresponseᚋinternalᚋentᚐSessionWhereInputᚄ(ctx context.Context, v interface{}) ([]*ent.SessionWhereInput, error) {

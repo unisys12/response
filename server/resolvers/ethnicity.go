@@ -38,4 +38,8 @@ func (r *queryResolver) Ethnicities(ctx context.Context) ([]*ent.Ethnicity, erro
 // Ethnicity returns server.EthnicityResolver implementation.
 func (r *Resolver) Ethnicity() server.EthnicityResolver { return &ethnicityResolver{r} }
 
+// Mutation returns server.MutationResolver implementation.
+func (r *Resolver) Mutation() server.MutationResolver { return &mutationResolver{r} }
+
 type ethnicityResolver struct{ *Resolver }
+type mutationResolver struct{ *Resolver }
