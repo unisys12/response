@@ -6,8 +6,8 @@
 /** Import theme variables */
 @import "../../themes/doks/assets/scss/common/variables";
 
-$response: #4F46E5;
-$response-darker: #312E81;
+$response: #4f46e5;
+$response-darker: #312e81;
 
 $primary: $response;
 $secondary: $response-darker;
@@ -37,21 +37,25 @@ $link-hover-color: $secondary;
 @import "../../themes/doks/assets/scss/layouts/posts";
 @import "../../themes/doks/assets/scss/layouts/sidebar";
 
-
 ::selection {
   background: lighten($primary, 25%);
 }
 
 :root {
-  --response: #4F46E5;
-  --response-red: #DC2626;
-  --response-darker: #312E81;
+  --response: #4f46e5;
+  --response-red: #dc2626;
+  --response-darker: #312e81;
 }
 
 .header-bar {
   border-top: none;
   height: 4px;
-  background: linear-gradient(90deg, var(--response), var(--response-red), var(--response));
+  background: linear-gradient(
+    90deg,
+    var(--response),
+    var(--response-red),
+    var(--response)
+  );
   background-size: 200% 200%;
 
   -webkit-animation: headerBarGradient 15s ease infinite;
@@ -60,19 +64,37 @@ $link-hover-color: $secondary;
 }
 
 @-webkit-keyframes headerBarGradient {
-  0%{background-position:0% 0%}
-  50%{background-position:200% 0%}
-  100%{background-position:400% 0%}
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 200% 0%;
+  }
+  100% {
+    background-position: 400% 0%;
+  }
 }
 @-moz-keyframes headerBarGradient {
-  0%{background-position:0% 0%}
-  50%{background-position:200% 0%}
-  100%{background-position:400% 0%}
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 200% 0%;
+  }
+  100% {
+    background-position: 400% 0%;
+  }
 }
 @keyframes headerBarGradient {
-  0%{background-position:0% 0%}
-  50%{background-position:200% 0%}
-  100%{background-position:400% 0%}
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 200% 0%;
+  }
+  100% {
+    background-position: 400% 0%;
+  }
 }
 
 .navbar-light .navbar-nav .nav-link:hover {
@@ -90,6 +112,7 @@ $link-hover-color: $secondary;
   color: var(--response-darker);
 }
 
-pre, code {
+pre,
+code {
   background-color: #f6f8fa;
 }

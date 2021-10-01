@@ -4,39 +4,39 @@ scalar Time
 scalar Cursor
 scalar Any
 
-directive @goModel(model: String, models: [String!]) on OBJECT
-    | INPUT_OBJECT
-    | SCALAR
-    | ENUM
-    | INTERFACE
-    | UNION
+directive @goModel(
+  model: String
+  models: [String!]
+) on OBJECT | INPUT_OBJECT | SCALAR | ENUM | INTERFACE | UNION
 
-directive @goField(forceResolver: Boolean, name: String) on INPUT_FIELD_DEFINITION
-    | FIELD_DEFINITION
+directive @goField(
+  forceResolver: Boolean
+  name: String
+) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
 
 interface Node {
-    id: ID!
+  id: ID!
 }
 
 # Error is implemented by all errors throughout the system and the message returned is considered
 # to be safe for end-users to understand the problem.
 interface Error {
-    message: String!
-    path: [String!]
+  message: String!
+  path: [String!]
 }
 
 type PageInfo {
-    hasNextPage: Boolean!
-    hasPreviousPage: Boolean!
-    startCursor: Cursor
-    endCursor: Cursor
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: Cursor
+  endCursor: Cursor
 }
 
 type ConsoleSettings {
-    data: Map
+  data: Map
 }
 
 type Query {
-    node(id: ID!): Node
-    nodes(ids: [ID!]): [Node]!
+  node(id: ID!): Node
+  nodes(ids: [ID!]): [Node]!
 }
