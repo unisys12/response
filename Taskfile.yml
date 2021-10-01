@@ -6,6 +6,12 @@ vars:
   GREETING: Hello, World!
 
 tasks:
+  run:
+    cmds:
+      - go run main.go {{.CLI_ARGS}}
+    interactive: true
+    silent: true
+
   generate:
     cmds:
       - go generate ./...

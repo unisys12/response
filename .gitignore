@@ -1,4 +1,6 @@
 ### Response
+.store/
+.task/
 /config.hcl
 
 ### Node template
