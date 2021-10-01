@@ -16,10 +16,7 @@ type SchemaChangeConfig struct {
 	NoDropColumns bool
 }
 
-var emptyTxString = `BEGIN;
-COMMIT;`
-
-var ErrSchemaChangesAvailable = errors.New("this Response version has schema changes")
+var ErrSchemaChangesAvailable = errors.New("schema changes required")
 
 func (c *Core) getMigrateOptions(config *SchemaChangeConfig) []schema.MigrateOption {
 	if config == nil {
@@ -40,6 +37,16 @@ func (c *Core) getMigrateOptions(config *SchemaChangeConfig) []schema.MigrateOpt
 }
 
 func (c *Core) HasSchemaChanges(ctx context.Context) (bool, error) {
+	const (
+		// emptyTxString provides the standard output for an empty SQL transaction for which
+		// no statements were generated. This means that no changes are needed to the schema.
+		//
+		// Hopefully Ent exposes this in the future as a first-class option. But for now, we
+		// hack it.
+		emptyTxString = `BEGIN;
+COMMIT;`
+	)
+
 	var buf bytes.Buffer
 	if err := c.ent.Schema.WriteTo(ctx, &buf, c.getMigrateOptions(&SchemaChangeConfig{})...); err != nil {
 		return false, fmt.Errorf("unable to determine schema changes: %w", err)
